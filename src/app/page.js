@@ -1,69 +1,53 @@
-import Image from "next/image";
+import Link from "next/link";
+import { products, formatPrice } from "@/data/products";
 
-export default function Home() {
+const featuredCategories = [
+  { name: "Laptops", description: "Computing for work and play", href: "/category/laptops" },
+  { name: "Accessories", description: "Upgrade your setup", href: "/category/accessories" },
+  { name: "Smartphones", description: "Mobile technology", href: "/category/smartphones" },
+];
+
+export default function HomePage() {
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert h-5 w-[100px]"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the{" "}
-            <code className="rounded bg-black/[.06] px-1.5 py-0.5 font-mono text-[0.9em] dark:bg-white/[.08]">
-              page.js
-            </code>{" "}
-            file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <div className="space-y-20">
+      <section className="relative overflow-hidden rounded-[2rem] border border-cyan-100 bg-gradient-to-br from-cyan-50 via-white to-amber-50 px-6 py-16 shadow-[0_24px_70px_-42px_rgba(14,116,144,0.45)] sm:px-12 sm:py-24">
+        <p className="relative mb-4 text-sm font-bold uppercase tracking-[0.25em] text-cyan-700">The everyday tech edit</p>
+        <h1 className="relative max-w-2xl text-4xl font-bold tracking-tight text-slate-950 sm:text-6xl">Better gear for the way you work.</h1>
+        <p className="relative mt-5 max-w-xl text-lg leading-8 text-slate-600">Thoughtful electronics and accessories, selected to make busy days feel a little more effortless.</p>
+        <Link href="/products" className="relative mt-9 inline-flex rounded-full bg-cyan-500 px-6 py-3 font-bold text-white shadow-lg shadow-cyan-200 transition hover:-translate-y-0.5 hover:bg-cyan-600">Explore the collection</Link>
+      </section>
+
+      <section>
+        <div className="flex items-end justify-between gap-4">
+          <div><p className="text-sm font-bold uppercase tracking-[0.2em] text-cyan-700">Browse your way</p><h2 className="mt-2 text-3xl font-bold tracking-tight">Shop by category</h2></div>
+          <Link href="/products" className="hidden text-sm font-bold text-cyan-700 hover:text-cyan-500 sm:block">View all</Link>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert h-[14px] w-4"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+        <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {featuredCategories.map((category, index) => (
+            <Link key={category.href} href={category.href} className="group rounded-2xl border border-slate-200/90 bg-white/80 p-6 shadow-sm transition hover:-translate-y-1 hover:border-cyan-300 hover:bg-white hover:shadow-lg">
+              <span className="text-sm font-bold text-slate-400">0{index + 1}</span>
+              <h3 className="mt-8 text-xl font-black">{category.name}</h3>
+              <p className="mt-2 text-sm text-slate-600">{category.description}</p>
+              <span className="mt-6 inline-block text-sm font-bold text-cyan-700 transition group-hover:translate-x-1">Shop now -&gt;</span>
+            </Link>
+          ))}
         </div>
-      </main>
+      </section>
+
+      <section>
+        <div className="flex items-end justify-between gap-4">
+          <div><p className="text-sm font-bold uppercase tracking-[0.2em] text-cyan-700">Staff picks</p><h2 className="mt-2 text-3xl font-bold tracking-tight">Good choices, no guesswork</h2></div>
+          <Link href="/products" className="text-sm font-bold text-cyan-700 hover:text-cyan-500">See everything -&gt;</Link>
+        </div>
+        <div className="mt-6 grid gap-5 sm:grid-cols-3">
+          {products.map((product) => (
+            <Link key={product.id} href={`/products/${product.id}`} className="group overflow-hidden rounded-2xl border border-slate-200/90 bg-white/80 shadow-sm transition hover:-translate-y-1 hover:bg-white hover:shadow-lg">
+              <div className={`h-32 bg-gradient-to-br ${product.accent} p-5 text-right text-xs font-bold uppercase tracking-widest text-white/90`}>Voltix pick</div>
+              <div className="p-5"><h3 className="font-bold">{product.name}</h3><p className="mt-2 font-black">{formatPrice(product.price)}</p></div>
+            </Link>
+          ))}
+        </div>
+      </section>
     </div>
   );
 }
