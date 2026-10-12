@@ -1,5 +1,6 @@
 
 import Link from "next/link";
+import CartCount from "@/components/CartCount";
 
 const links = [
   { href: "/", label: "Home" },
@@ -31,6 +32,7 @@ export default function Navbar() {
               {link.label}
             </Link>
           ))}
+          <CartCount />
         </div>
       </nav>
     </header>
