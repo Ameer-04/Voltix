@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { products, formatPrice } from "@/data/products";
+import { getProducts } from "@/lib/product-data";
 
 const featuredCategories = [
   { name: "Laptops", description: "Computing for work and play", href: "/category/laptops" },
@@ -7,7 +7,12 @@ const featuredCategories = [
   { name: "Smartphones", description: "Mobile technology", href: "/category/smartphones" },
 ];
 
-export default function HomePage() {
+export const instant = false;
+
+export default async function HomePage() {
+  const products = await getProducts();
+  const featuredProducts = products.slice(0, 3);
+
   return (
     <div className="space-y-20">
       <section className="relative overflow-hidden rounded-[2rem] border border-cyan-100 bg-gradient-to-br from-cyan-50 via-white to-amber-50 px-6 py-16 shadow-[0_24px_70px_-42px_rgba(14,116,144,0.45)] sm:px-12 sm:py-24">
@@ -40,10 +45,10 @@ export default function HomePage() {
           <Link href="/products" className="text-sm font-bold text-cyan-700 hover:text-cyan-500">See everything -&gt;</Link>
         </div>
         <div className="mt-6 grid gap-5 sm:grid-cols-3">
-          {products.map((product) => (
-            <Link key={product.id} href={`/products/${product.id}`} className="group overflow-hidden rounded-2xl border border-slate-200/90 bg-white/80 shadow-sm transition hover:-translate-y-1 hover:bg-white hover:shadow-lg">
+          {featuredProducts.map((product) => (
+            <Link key={product._id} href={`/products/${product._id}`} className="group overflow-hidden rounded-2xl border border-slate-200/90 bg-white/80 shadow-sm transition hover:-translate-y-1 hover:bg-white hover:shadow-lg">
               <div className={`h-32 bg-gradient-to-br ${product.accent} p-5 text-right text-xs font-bold uppercase tracking-widest text-white/90`}>Voltix pick</div>
-              <div className="p-5"><h3 className="font-bold">{product.name}</h3><p className="mt-2 font-black">{formatPrice(product.price)}</p></div>
+              <div className="p-5"><h3 className="font-bold">{product.name}</h3><p className="mt-2 font-black">${product.price.toLocaleString("en-US")}</p></div>
             </Link>
           ))}
         </div>

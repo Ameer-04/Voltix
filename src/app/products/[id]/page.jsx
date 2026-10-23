@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { products, formatPrice } from "@/data/products";
+import { getProductById } from "@/lib/product-data";
 import QuantitySelector from "@/components/QuantitySelector";
 import AddToCartButton from "@/components/AddtoCartButton";
 
@@ -9,7 +9,7 @@ export const instant = false;
 export default async function ProductDetailPage({ params }) {
   const { id } = await params;
 
-  const product = products.find((item) => item.id === id);
+  const product = await getProductById(id);
 
   if (!product) {
     notFound();
@@ -34,19 +34,18 @@ export default async function ProductDetailPage({ params }) {
           <h1 className="mt-3 text-3xl font-black">{product.name}</h1>
 
           <p className="mt-4 text-2xl font-black">
-            {formatPrice(product.price)}
+            ${product.price.toLocaleString("en-US")}
           </p>
           <p className="mt-3 text-xl font-semibold">
-            ${product.price.toLocaleString("en-US")}
+            {product.stock} in stock
           </p>
 
           <QuantitySelector />
 
-          <AddToCartButton productId={product.id} />
+          <AddToCartButton productId={product._id} />
 
           <p className="mt-4 text-gray-600">
-            Product details and specifications will be added when we connect the
-            database.
+            Product details and specifications are sourced from our catalog.
           </p>
           <p className="mt-5 leading-7 text-slate-600">{product.description}</p>
           {/* <Link
